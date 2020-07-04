@@ -6,9 +6,13 @@ import mutagen.mp4
 from classes.song import Song
 
 def getMusic(music_folder: str) -> list:
-    """ Returns a dictionary containing music files
-        key 'mp3' contains the set of all mp3 files
-        key 'flac' contains the set of all flac files
+    """ Gets music files
+
+    Searches the given directory for mp3, flac, and m4a files
+
+    :param music_folder: A string containing the music directory path
+
+    :return: A list of songs found. If no songs found, None is returned
     """
     songs = []
     for root, dirs, files in os.walk(music_folder):
@@ -28,6 +32,8 @@ def getMusic(music_folder: str) -> list:
 
 
 def fileFound(f: str):
+    """ Prints a file path with a tab preppended
+    """
     print("\t%s" % f)
 
 
