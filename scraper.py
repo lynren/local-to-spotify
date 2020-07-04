@@ -16,25 +16,13 @@ def getMusic(music_folder: str) -> list:
     """
     songs = []
     for root, dirs, files in os.walk(music_folder):
-        for f in files:
-            path = root + '/' + f
-            if f.endswith(".mp3"):
-                fileFound(path)
-                new_song = Song(getMp3Info(path))
-                songs.append(new_song)
-            elif f.endswith(".flac"):
-                fileFound(path)
-                songs.append(Song(getFlacInfo(path)))
-            elif f.endswith(".m4a"):
-                fileFound(path)
-                songs.append(Song(getM4aInfo(path)))
+        for file_ in files:
+            if file_.lower().endswith((".mp3", ".flac", ".m4a")):
+                print("\t%s" % path)
+                path = root + '/' + file_
+                songs.append(Song(getFileInfo(path)))
+
     return songs if len(songs) > 0 else None
-
-
-def fileFound(f: str):
-    """ Prints a file path with a tab preppended
-    """
-    print("\t%s" % f)
 
 
 def getMp3Info(music_file_path: str) -> dict:
@@ -64,3 +52,12 @@ def getM4aInfo(music_file_path: str) -> dict:
         return {'title': None, 'artist': None, 'album': None, 'path': music_file_path}
     return {'title': audio['\xa9nam'], 'artist': audio['\xa9ART'], \
             'album': audio['\xa9alb'], 'path': music_file_path}
+
+
+def getFileInfo(music_file_path) -> dict:
+    if music_file_path.endswith(".mp3"):
+        return getMp3Info(music_file_path)
+    if music_file_path.endswith(".flac"):
+        return getFlacInfo(music_file_path)
+    # ends with .m4a or .mp4
+    return getM4aInfo(music_file_path)
