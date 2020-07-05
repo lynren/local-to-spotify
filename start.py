@@ -18,7 +18,7 @@ def strCompare(string1, string2) -> float:
     return SequenceMatcher(None, string1.lower(), string2.lower()).ratio()
 
 
-def findMatch(sp, local_song):
+def getMatch(spotify_client, local_song):
     """ Find Spotify match
 
     Takes a song's track name and artist name then searches for a matching song
@@ -27,7 +27,7 @@ def findMatch(sp, local_song):
     :param local_song: A Song object containing the track info
     :return: A dictionary containing Spotify track info
     """
-    results = sp.search(q="track:%s" %
+    results = spotify_client.search(q="track:%s" %
         local_song.getTitle(), limit=30, type='track')
     spotify_matches = results["tracks"]["items"]
     matched_song = None
@@ -63,7 +63,7 @@ def findMatch(sp, local_song):
     # if local song has no artist, match with title only
     else:
         for spotify_song in spotify_matches:
-            if strCompare(local_song.getTitle(), spotify_song["name"]) > 0.6:
+            if strCompare(local_song.getTitle(), spotify_song["name"]) > 0.7:
                 matched_song = spotify_song
                 break
     return matched_song
@@ -120,16 +120,17 @@ def main():
     scope = "user-read-private user-library-modify"
     token = util.prompt_for_user_token(username, scope)
 
-    if token:
-        sp = spotipy.Spotify(auth=token)
+    if not token:
+        raise SystemExit
 
+    spotify_client = spotipy.Spotify(auth=token)
     unmatched_songs = []
     matched_song_uris = []
 
     while len(songs) > 0:
         track = songs.pop()
         printSearch(track)
-        song_match = findMatch(sp, track)
+        song_match = getMatch(spotify_client, track)
         if song_match is not None:
             matchFound(song_match)
             matched_song_uris.append(song_match["uri"])
@@ -138,7 +139,7 @@ def main():
             unmatched_songs.append(track)
 
     if len(matched_song_uris) > 0:
-        sp.current_user_saved_tracks_add(tracks=matched_song_uris)
+        spotify_client.current_user_saved_tracks_add(tracks=matched_song_uris)
     else:
         print("Matches for any tracks were not found")
 
