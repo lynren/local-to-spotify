@@ -109,10 +109,14 @@ def main():
     setEnviron(config)
     username = config["USERNAME"]
 
-    music_dir = input("Enter m3u file path: ")
+    m3u_path = input("Enter m3u file path: ")
     playlist_name = input("Enter playlist name: ")
+    if m3u_path == "" or playlist_name == "":
+        print("m3u file or playlist name not provided. Exiting program.")
+        raise SystemExit
+
     print(Tcolors.HEADER + "Extracting music file paths..." + Tcolors.ENDC)
-    songs = getM3uMusic(music_dir)
+    songs = getM3uMusic(m3u_path)
 
     if songs is None:
         print("M3U file contains no music. Exiting program.")

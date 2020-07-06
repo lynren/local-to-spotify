@@ -110,6 +110,10 @@ def main():
     username = config["USERNAME"]
 
     music_dir = input("Enter music directory absolute path: ")
+    if music_dir == "" or music_dir[0] != "/":
+        print("An absolute path must be provided. Program exiting.")
+        raise SystemExit
+
     print("Searching for music files...")
     songs = getMusic(music_dir)
 
