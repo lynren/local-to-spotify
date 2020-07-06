@@ -1,5 +1,5 @@
 import re
-from st import stripTitle
+
 
 class Song:
 
@@ -31,3 +31,12 @@ class Song:
 
     def getPath(self) -> str:
         return self.path
+
+
+def stripTitle(title: str) -> str:
+    title = re.sub(r"[\[\(].*[\]\)]", "", title)
+    title = re.sub(r"[´`]", "'", title)
+    title = re.sub(r"\s{2,}", " ", title)
+
+    title = title.rstrip()
+    return title
