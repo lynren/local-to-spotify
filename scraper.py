@@ -73,7 +73,7 @@ def getM3uMusic(m3u_file_path):
             if lineIsMusic(line.rstrip()):
                 print("\t%s" % line)
                 songs.append(Song(getFileInfo(line.rstrip())))
-    return songs
+    return songs if len(songs) > 0 else None
 
 
 def lineIsMusic(m3u_line) -> bool:
