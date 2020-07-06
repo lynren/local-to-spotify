@@ -11,7 +11,7 @@ Requirements
 - [Mutagen](https://mutagen.readthedocs.io/en/latest/)
 - [Spotipy](https://spotipy.readthedocs.io/en/latest/)
 - [Spotify developer credentials for Spotipy](https://developer.spotify.com/dashboard)
-- Python 3
+- Python 3.8
 
 Usage
 =====
