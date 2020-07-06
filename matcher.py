@@ -1,9 +1,5 @@
-import os
-import configparser
 from difflib import SequenceMatcher
 import spotipy
-import spotipy.util as util
-from scraper import getMusic
 from classes.song import Song
 from classes.tcolors import Tcolors
 
