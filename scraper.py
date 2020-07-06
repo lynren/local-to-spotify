@@ -19,8 +19,8 @@ def getMusic(music_folder: str) -> list:
     for root, dirs, files in os.walk(music_folder):
         for file_ in files:
             if file_.lower().endswith((".mp3", ".flac", ".m4a")):
-                print("\t%s" % path)
                 path = root + '/' + file_
+                print("\t%s" % path)
                 songs.append(Song(getFileInfo(path)))
 
     return songs if len(songs) > 0 else None
