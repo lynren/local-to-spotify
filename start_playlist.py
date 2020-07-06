@@ -112,14 +112,15 @@ def main():
     m3u_path = input("Enter m3u file path: ")
     playlist_name = input("Enter playlist name: ")
     if m3u_path == "" or playlist_name == "":
-        print("m3u file or playlist name not provided. Exiting program.")
+        print(Tcolors.FAIL + "m3u file or playlist name not provided. Exiting program."
+                + Tcolors.ENDC)
         raise SystemExit
 
     print(Tcolors.HEADER + "Extracting music file paths..." + Tcolors.ENDC)
     songs = getM3uMusic(m3u_path)
 
     if songs is None:
-        print("M3U file contains no music. Exiting program.")
+        print(Tcolors.FAIL + "M3U file contains no music. Exiting program." + Tcolors.ENDC)
         raise SystemExit
 
     scope = "user-read-private playlist-modify-public playlist-modify-private"
@@ -150,7 +151,7 @@ def main():
                 public=True)
         spotify_client.user_playlist_add_tracks(username, playlist["id"], matched_song_uris)
     else:
-        print("No matches for any tracks were found")
+        print(Tcolors.FAIL + "No matches for any tracks were found" + Tcolors.ENDC)
 
     print("\nMatching finished. All matched tracks have been added to \"%s\" playlist"
             % playlist_name)

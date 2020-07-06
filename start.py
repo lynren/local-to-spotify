@@ -111,14 +111,14 @@ def main():
 
     music_dir = input("Enter music directory absolute path: ")
     if music_dir == "" or music_dir[0] != "/":
-        print("An absolute path must be provided. Program exiting.")
+        print(Tcolors.FAIL + "An absolute path must be provided. Program exiting." + Tcolors.ENDC)
         raise SystemExit
 
     print("Searching for music files...")
     songs = getMusic(music_dir)
 
     if songs is None:
-        print("Music directory is empty. Exiting program.")
+        print(Tcolors.FAIL + "Music directory is empty. Exiting program." + Tcolors.ENDC)
         raise SystemExit
 
     scope = "user-read-private user-library-modify"
