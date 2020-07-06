@@ -1,4 +1,5 @@
 import os
+import re
 from mutagen.easyid3 import EasyID3
 import mutagen.flac
 import mutagen.id3
@@ -61,3 +62,29 @@ def getFileInfo(music_file_path) -> dict:
         return getFlacInfo(music_file_path)
     # ends with .m4a or .mp4
     return getM4aInfo(music_file_path)
+
+def getM3uMusic(m3u_file_path):
+    """ Creates a list of Song objects
+    Songs files are parsed from the m3u file
+    """
+    songs = []
+    with open(m3u_file_path) as m3u_file:
+        for line in m3u_file:
+            if lineIsMusic(line.rstrip()):
+                print("\t%s" % line)
+                songs.append(Song(getFileInfo(line.rstrip())))
+    return songs
+
+
+def lineIsMusic(m3u_line) -> bool:
+    """ Test is an m3u entry is a local file
+
+    Filters out URLs and comments from an m3u file
+
+    :param m3u_line: A string containing the m3u entry line
+
+    :return: True if line is a local file, False otherwise
+    """
+    return m3u_line[0] == "/" and \
+            not re.search("://", m3u_line) and \
+            m3u_line.lower().endswith((".mp3", ".flac", ".m4a"))
